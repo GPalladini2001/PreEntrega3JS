@@ -1,110 +1,147 @@
-hamburguesas = [
+function principal(){
+  let hamburguesas = [
     {
-        nombre : "doble carne doble queso",
-        carne : "10",
-        pan : "regular",
-        cebolla : true,
-        lechuga : false,
-        quesos: 2,
-        carnes : 2,
-        precio : 6900
+      nombre: "doble carne doble queso",
+      carne: "10",
+      pan: "regular",
+      cebolla: true,
+      lechuga: false,
+      tomate:  false,
+      tasty: false,
+      bacon: false,
+      quesos: 2,
+      carnes: 2,
+      precio: 6900,
+      rutaImagen: "dobleCarne.jpg",
     },
     {
-        nombre : "cuarto de libra",
-        carne : "4",
-        pan : "cuarto",
-        cebolla : true,
-        lechuga : false,
-        quesos : 2,
-        carnes : 1,
-        precio : 7300
+      nombre: "tasty doble",
+      carne: "4",
+      pan: "xl",
+      cebolla: true,
+      lechuga: true,
+      tomate:  true,
+      tasty: true,
+      bacon: false,
+      quesos: 3,
+      carnes: 2,
+      precio: 9500,
+      rutaImagen: "tastyDoble.jpg",
     },
     {
-        nombre : "big mac",
-        carne : "10",
-        pan : "big mac",
-        cebolla : true,
-        lechuga : true,
-        quesos : 1,
-        carnes : 2,
-        precio : 7200
+      nombre: "tasty triple",
+      carne: "4",
+      pan: "xl",
+      cebolla: true,
+      lechuga: true,
+      tomate:  true,
+      tasty: true,
+      bacon: false,
+      quesos: 4,
+      carnes: 3,
+      precio: 10200,
+      rutaImagen: "tastyTriple.jpg",
     },
     {
-        nombre : "mcnifica",
-        carne : "4",
-        pan : "cuarto",
-        cebolla : true,
-        lechuga : true,
-        quesos : 1,
-        carnes : 1,
-        precio : 7700
-    }
-]
+      nombre: "cuarto de libra",
+      carne: "4",
+      pan: "cuarto",
+      cebolla: true,
+      lechuga: false,
+      tomate:  false,
+      tasty: false,
+      bacon: false,
+      quesos: 2,
+      carnes: 1,
+      precio: 7700,
+      rutaImagen: "cuarto.jpg",
+    },
+    {
+      nombre: "doble cuarto de libra",
+      carne: "4",
+      pan: "cuarto",
+      cebolla: true,
+      lechuga: false,
+      tomate:  false,
+      tasty: false,
+      bacon: false,
+      quesos: 2,
+      carnes: 2,
+      precio: 8800,
+      rutaImagen: "dobleCuarto.jpg"
+    },
+    {
+      nombre: "big mac",
+      carne: "10",
+      pan: "big mac",
+      cebolla: true,
+      lechuga: true,
+      tomate:  false,
+      tasty: false,
+      bacon: false,
+      quesos: 1,
+      carnes: 2,
+      precio: 7300,
+      rutaImagen: "bigMac.jpg"
+    },
+    {
+      nombre: "mcnifica",
+      carne: "4",
+      pan: "cuarto",
+      cebolla: true,
+      lechuga: true,
+      tomate:  true,
+      tasty: false,
+      bacon: false,
+      quesos: 1,
+      carnes: 1,
+      precio: 8000,
+      rutaImagen: "mcNifica.jpg"
+    },
+    {
+      nombre: "doble mcbacon",
+      carne: "4",
+      pan: "xl",
+      cebolla: true,
+      lechuga: false,
+      tomate:  false,
+      tasty: false,
+      bacon: true,
+      quesos: 2,
+      carnes: 2,
+      precio: 9500,
+      rutaImagen: "dobleMcbacon.jpg",
+    },
+    {
+      nombre: "triple mcbacon",
+      carne: "4",
+      pan: "xl",
+      cebolla: true,
+      lechuga: false,
+      tomate:  false,
+      tasty: false,
+      bacon: true,
+      quesos: 3,
+      carnes: 3,
+      precio: 10200,
+      rutaImagen: "tripleMcbacon.jpg",
+    },
+  ]
 
-let respuesta = 1
+  crearTarjetasHamburguesas(hamburguesas)
+}
 
-do {
-    respuesta = parseInt(prompt("Ingrese una opcion\n1 - Ordenar por precio de menor a mayor\n2 - Ordenar por precio de mayor a menor\n3 - Mostrar productos\n0 - Salir "))
+principal()
 
-    if (respuesta === 1){
-        let hamburguesasMenorMayor = hamburguesas.map(hamburguesa => {
-            return {
-                nombre : hamburguesa.nombre,
-                precio : hamburguesa.precio
-            }
-        })
-        hamburguesasMenorMayor.sort((a, b) => {
-            if (a.precio > b.precio){
-                return 1
-            }
-            else if (a.precio < b.precio){
-                return -1
-            }
-            else{
-                return 0
-            }
-        })
-        let salida = ""
-        hamburguesasMenorMayor.forEach((hamburguesa) => {
-            salida = salida + hamburguesa.nombre + " - Precio: " + hamburguesa.precio + "\n"
-        })
-        alert(salida)
-    }else if(respuesta ===2){
-        let hamburguesasMayorMenor = hamburguesas.map(hamburguesa => {
-            return {
-                nombre : hamburguesa.nombre,
-                precio : hamburguesa.precio
-            }
-        })
-        hamburguesasMayorMenor.sort((a, b) => {
-            if (a.precio < b.precio){
-                return 1
-            }
-            else if (a.precio > b.precio){
-                return -1
-            }
-            else{
-                return 0
-            }
-        })
-        let salida = ""
-        hamburguesasMayorMenor.forEach((hamburguesa) => {
-            salida = salida + hamburguesa.nombre + " - Precio: " + hamburguesa.precio + "\n"
-        })
-        alert(salida)
-    }
-    else if(respuesta === 3){
-        let salida = ""
-        hamburguesas.forEach((hamburguesa) =>{
-            salida = salida + hamburguesa.nombre + " - Precio: " + hamburguesa.precio + "\n"
-        })
-        alert (salida)
-    }
-    else if (respuesta === 0){
-        alert("Hasta pronto")
-    }
-    else if(isNaN(respuesta) || respuesta < 0 || respuesta > 3){
-        alert("opccion no valida")
-    }
-    
-} while (respuesta !== 0);
+function crearTarjetasHamburguesas(hamburguesas){
+  let contenedor = document.getElementById("contenedorProductos")
+  hamburguesas.forEach(hamburguesa =>{
+    contenedor.innerHTML +=`
+    <div class=hamburguesa>
+      <h3>${hamburguesa.nombre}</h3>
+      <img src=./image/${hamburguesa.rutaImagen}>
+      <p>precio: $${hamburguesa.precio}</p>
+    </div>
+    `
+  })
+}
