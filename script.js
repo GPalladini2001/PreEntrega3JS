@@ -9,7 +9,7 @@ function principal() {
       tomate: false,
       bacon: false,
       precio: 3700,
-      rutaImagen: "hamburguesa.jpg"
+      rutaImagen: "hamburguesa.jpg",
     },
     {
       nombre: "hamburguesa con queso",
@@ -20,7 +20,7 @@ function principal() {
       tomate: false,
       bacon: false,
       precio: 3900,
-      rutaImagen: "hamburguesaQueso.jpg"
+      rutaImagen: "hamburguesaQueso.jpg",
     },
     {
       nombre: "Bacon Cheddar McMelt",
@@ -31,7 +31,7 @@ function principal() {
       tomate: false,
       bacon: true,
       precio: 8500,
-      rutaImagen: "baconMcMelt.jpg"
+      rutaImagen: "baconMcMelt.jpg",
     },
     {
       nombre: "doble carne doble queso",
@@ -134,10 +134,20 @@ function principal() {
     },
   ];
 
-  crearTarjetasHamburguesas(hamburguesas);
+  let hamburguesasGuardadas =
+    JSON.parse(localStorage.getItem(hamburguesas)) || [];
+  crearTarjetasHamburguesas(hamburguesasGuardadas);
 
   let inputBuscar = document.getElementById("inputBuscar");
   inputBuscar.addEventListener("input", busqueda);
+  inputBuscar.addEventListener("input", () => {
+    localStorage.setItem("barraBusqueda", inputBuscar.value);
+  });
+  let ultimaBusqueda = localStorage.getItem("barraBusqueda");
+  if (ultimaBusqueda) {
+    inputBuscar.value = ultimaBusqueda;
+    busqueda();
+  }
   function busqueda() {
     let textoMinuscula = inputBuscar.value.toLowerCase();
     let filtroNombre = hamburguesas.filter((hamburguesa) =>
@@ -148,6 +158,16 @@ function principal() {
 
   let select = document.getElementById("filtros");
   select.addEventListener("change", cambiar);
+  select.addEventListener("change", () => {
+    localStorage.setItem("filtroSeleccionado", select.value);
+  });
+  window.addEventListener("load", () => {
+    let filtroGuardado = localStorage.getItem("filtroSeleccionado");
+    if (filtroGuardado) {
+      select.value = filtroGuardado;
+      cambiar();
+    }
+  });
 
   function cambiar() {
     if (select.value === "value0") {
@@ -164,9 +184,9 @@ function principal() {
       crearTarjetasHamburguesas(filtrarPorPropiedad(hamburguesas, "carne10"));
     } else if (select.value === "value6") {
       crearTarjetasHamburguesas(filtrarPorPropiedad(hamburguesas, "carne4"));
-    }else if (select.value === "value7") {
+    } else if (select.value === "value7") {
       crearTarjetasHamburguesas(filtrarPorPropiedad(hamburguesas, "cebolla"));
-    }else if (select.value === "value8") {
+    } else if (select.value === "value8") {
       crearTarjetasHamburguesas(filtrarPorPropiedad(hamburguesas, "bacon"));
     }
   }
@@ -192,6 +212,8 @@ function principal() {
     });
     return copiaArrayHamburguesas;
   }
+
+  localStorage.setItem("hamburguesas", JSON.stringify(hamburguesas));
 }
 
 principal();
