@@ -1,139 +1,21 @@
 function principal() {
-  let hamburguesas = [
-    {
-      nombre: "hamburguesa",
-      carne10: true,
-      carne4: false,
-      cebolla: false,
-      lechuga: false,
-      tomate: false,
-      bacon: false,
-      precio: 3700,
-      rutaImagen: "hamburguesa.jpg",
-    },
-    {
-      nombre: "hamburguesa con queso",
-      carne10: true,
-      carne4: false,
-      cebolla: false,
-      lechuga: false,
-      tomate: false,
-      bacon: false,
-      precio: 3900,
-      rutaImagen: "hamburguesaQueso.jpg",
-    },
-    {
-      nombre: "Bacon Cheddar McMelt",
-      carne10: false,
-      carne4: true,
-      cebolla: true,
-      lechuga: false,
-      tomate: false,
-      bacon: true,
-      precio: 8500,
-      rutaImagen: "baconMcMelt.jpg",
-    },
-    {
-      nombre: "doble carne doble queso",
-      carne10: true,
-      carne4: false,
-      cebolla: true,
-      lechuga: false,
-      tomate: false,
-      bacon: false,
-      precio: 6900,
-      rutaImagen: "dobleCarne.jpg",
-    },
-    {
-      nombre: "tasty doble",
-      carne10: false,
-      carne4: true,
-      cebolla: true,
-      lechuga: true,
-      tomate: true,
-      bacon: false,
-      precio: 9500,
-      rutaImagen: "tastyDoble.jpg",
-    },
-    {
-      nombre: "tasty triple",
-      carne10: false,
-      carne4: true,
-      cebolla: true,
-      lechuga: true,
-      tomate: true,
-      bacon: false,
-      precio: 10200,
-      rutaImagen: "tastyTriple.jpg",
-    },
-    {
-      nombre: "cuarto de libra",
-      carne10: false,
-      carne4: true,
-      cebolla: true,
-      lechuga: false,
-      tomate: false,
-      bacon: false,
-      precio: 7700,
-      rutaImagen: "cuarto.jpg",
-    },
-    {
-      nombre: "doble cuarto de libra",
-      carne10: false,
-      carne4: true,
-      cebolla: true,
-      lechuga: false,
-      tomate: false,
-      bacon: false,
-      precio: 8800,
-      rutaImagen: "dobleCuarto.jpg",
-    },
-    {
-      nombre: "big mac",
-      carne10: true,
-      carne4: false,
-      cebolla: true,
-      lechuga: true,
-      tomate: false,
-      bacon: false,
-      precio: 7300,
-      rutaImagen: "bigMac.jpg",
-    },
-    {
-      nombre: "mcnifica",
-      carne10: false,
-      carne4: true,
-      cebolla: true,
-      lechuga: true,
-      tomate: true,
-      bacon: false,
-      precio: 8000,
-      rutaImagen: "mcNifica.jpg",
-    },
-    {
-      nombre: "doble mcbacon",
-      carne10: false,
-      carne4: true,
-      cebolla: true,
-      lechuga: false,
-      tomate: false,
-      bacon: true,
-      precio: 9500,
-      rutaImagen: "dobleMcbacon.jpg",
-    },
-    {
-      nombre: "triple mcbacon",
-      carne10: false,
-      carne4: true,
-      cebolla: true,
-      lechuga: false,
-      tomate: false,
-      bacon: true,
-      precio: 10200,
-      rutaImagen: "tripleMcbacon.jpg",
-    },
-  ];
+  function cargarHamburguesasAjax(){
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "info.json", true);
 
+    xhr.onreadystatechange = function(){
+      if (xhr.readyState === 4 && xhr.status === 200){
+        let hamburguesas = JSON.parse(xhr.responseText);
+        principal(hamburguesas);
+      } else if (xhr.readyState === 4){
+        console.error("No se pudo cargar el archivo JSON");
+      }
+    };
+
+    xhr.send();
+  }
+
+  cargarHamburguesasAjax();
   let hamburguesasGuardadas =
     JSON.parse(localStorage.getItem(hamburguesas)) || [];
   crearTarjetasHamburguesas(hamburguesasGuardadas);
@@ -170,25 +52,39 @@ function principal() {
   });
 
   function cambiar() {
-    if (select.value === "value0") {
-      crearTarjetasHamburguesas(hamburguesas);
-    } else if (select.value === "value1") {
-      crearTarjetasHamburguesas(ordenarPorPrecio(hamburguesas, "asc"));
-    } else if (select.value === "value2") {
-      crearTarjetasHamburguesas(ordenarPorPrecio(hamburguesas, "desc"));
-    } else if (select.value === "value3") {
-      crearTarjetasHamburguesas(filtrarPorPropiedad(hamburguesas, "tomate"));
-    } else if (select.value === "value4") {
-      crearTarjetasHamburguesas(filtrarPorPropiedad(hamburguesas, "lechuga"));
-    } else if (select.value === "value5") {
-      crearTarjetasHamburguesas(filtrarPorPropiedad(hamburguesas, "carne10"));
-    } else if (select.value === "value6") {
-      crearTarjetasHamburguesas(filtrarPorPropiedad(hamburguesas, "carne4"));
-    } else if (select.value === "value7") {
-      crearTarjetasHamburguesas(filtrarPorPropiedad(hamburguesas, "cebolla"));
-    } else if (select.value === "value8") {
-      crearTarjetasHamburguesas(filtrarPorPropiedad(hamburguesas, "bacon"));
-    }
+    let hamburguesasFiltradas =
+      select.value === "value0"
+        ? [...hamburguesas]
+        : select.value === "value1"
+        ? ordenarPorPrecio(hamburguesas, "asc")
+        : select.value === "value2"
+        ? ordenarPorPrecio(hamburguesas, "desc")
+        : select.value === "value3"
+        ? filtrarPorPropiedad(hamburguesas, "tomate")
+        : select.value === "value4"
+        ? filtrarPorPropiedad(hamburguesas, "lechuga")
+        : select.value === "value5"
+        ? filtrarPorPropiedad(hamburguesas, "carne10")
+        : select.value === "value6"
+        ? filtrarPorPropiedad(hamburguesas, "carne4")
+        : select.value === "value7"
+        ? filtrarPorPropiedad(hamburguesas, "cebolla")
+        : select.value === "value8"
+        ? filtrarPorPropiedad(hamburguesas, "bacon")
+        : [...hamburguesas];
+
+    crearTarjetasHamburguesas(hamburguesasFiltradas);
+    Toastify({
+      text: "Filtro aplicado",
+      duration: 2000,
+      close: true,
+      gravity: "top",
+      position: "right",
+      stopOnFocus: true,
+      style: {
+        background: "linear-gradient(to right,rgb(255, 166, 0),rgb(232, 143, 19))",
+      },
+    }).showToast();
   }
   function filtrarPorPropiedad(hamburguesas, propiedad) {
     return hamburguesas.filter((hamburguesa) => hamburguesa[propiedad]);
@@ -221,19 +117,17 @@ principal();
 function crearTarjetasHamburguesas(hamburguesas) {
   let contenedor = document.getElementById("contenedorProductos");
   contenedor.innerHTML = "";
-  if (hamburguesas.length === 0) {
-    contenedor.innerHTML = `
-    <p>No se encontraron coincidencias</p>
-    `;
-  } else {
-    hamburguesas.forEach((hamburguesa) => {
-      contenedor.innerHTML += `
-      <div class=hamburguesa>
-        <h3>${hamburguesa.nombre}</h3>
-        <img src=./image/${hamburguesa.rutaImagen}>
-        <p>precio: $${hamburguesa.precio}</p>
-      </div>
-      `;
-    });
-  }
+  hamburguesas.length === 0
+    ? (contenedor.innerHTML = `
+  <h3>No se encontraron coincidencias</h3>
+  `)
+    : hamburguesas.forEach((hamburguesa) => {
+        contenedor.innerHTML += `
+        <div class=hamburguesa>
+          <h3>${hamburguesa.nombre}</h3>
+          <img src=./image/${hamburguesa.rutaImagen}>
+          <p>precio: $${hamburguesa.precio}</p>
+        </div>
+        `;
+      });
 }
